@@ -95,8 +95,8 @@ class BeanstalkdSource extends DataSource {
 	function isConnected() {
 		return $this->connected;
 	}
-
-	function put(&$Model, $data, $options = array()) {
+ 
+	function put(&$Model, $data, $options = array(), $tube = null) {
 		unset($Model->data[$Model->alias]);
 		$Model->set($data);
 		$body = $Model->data[$Model->alias];
@@ -104,7 +104,9 @@ class BeanstalkdSource extends DataSource {
 		$priority = 0;
 		$delay = 0;
 		$ttr = $this->config['ttr'];
-		$tube = 'default';
+		if($tube === null) {
+			$tube = 'default';
+		}	
 		extract($options, EXTR_OVERWRITE);
 
 		if (!$this->choose($Model, $tube)) {
