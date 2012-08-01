@@ -96,7 +96,7 @@ class BeanstalkdSource extends DataSource {
 		return $this->connected;
 	}
  
-	function put(&$Model, $data, $options = array(), $tube = null) {
+	function put(&$Model, $data,  $tube = null, $options = array()) {
 		unset($Model->data[$Model->alias]);
 		$Model->set($data);
 		$body = $Model->data[$Model->alias];
